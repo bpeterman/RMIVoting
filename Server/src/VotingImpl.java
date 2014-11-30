@@ -137,7 +137,9 @@ public class VotingImpl extends UnicastRemoteObject implements VotingInterface{
 	public synchronized void unregisterForCallback(
 			CallbackClientInterface callbackClientObject)
 			throws RemoteException {
-		// TODO Auto-generated method stub
+		if(clientList.removeElement(callbackClientObject)){
+			
+		}
 		
 	}
 	

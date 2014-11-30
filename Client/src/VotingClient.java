@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public class VotingClient {
-
+	public static CallbackClientInterface callbackObj;
 	public static void main(String[] args) {
 		try {
 			String registryURL = "rmi://" + Constants.url + ":"
@@ -54,7 +54,7 @@ public class VotingClient {
 					subscribe(v, username, password);
 				}
 				else if(decision==7){
-					viewResults(v);
+					unsubscribe(v, username, password);
 				}
 				else if(decision==8){
 					viewResults(v);
@@ -83,7 +83,6 @@ public class VotingClient {
 		System.out.println("5.) See results so far");
 		System.out.println("6.) Subscribe for ending");
 		System.out.println("7.) Stop subscription for ending");
-		System.out.println("8.) Do nothing");
 		System.out.println("9.) Quit");
 	}
 	
@@ -136,10 +135,14 @@ public class VotingClient {
 	}
 	
 	public static void subscribe(VotingInterface v, String username, String password) throws RemoteException{
-		CallbackClientInterface callbackObj = new CallbackClientImpl();
+		callbackObj = new CallbackClientImpl();
 		v.registerForCallback(callbackObj);
 		System.out.println("Subscribed");
 	}
-
 	
+	public static void unsubscribe(VotingInterface v, String username, String password) throws RemoteException{
+		v.unregisterForCallback(callbackObj);
+		System.out.println("UN-Subscribed");
+	}
+
 }
