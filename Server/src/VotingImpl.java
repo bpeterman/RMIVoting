@@ -66,6 +66,21 @@ public class VotingImpl extends UnicastRemoteObject implements VotingInterface {
 		return true;
 	}
 	
+	public boolean removeVote(String username, String password){
+		if(!isVotingOpen)
+			return false;
+		User checkUser = new User(username, password);
+		if(votes.contains(checkUser)){
+			for(int i=0; i<votes.size(); i++){
+				if(votes.get(i).getUsername().equals(username)){
+					votes.remove(i);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public String getResults(){
 		int index=0;
 		int[] counts = new int[options.choices.size()];

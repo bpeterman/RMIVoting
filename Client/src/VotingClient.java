@@ -44,10 +44,23 @@ public class VotingClient {
 					vote(v, br, username, password);
 				}
 				else if(decision==4){
-					vote(v, br, username, password);
+					removeVote(v, username, password);
 				}
 				else if(decision==5){
 					viewResults(v);
+				}
+				else if(decision==6){
+					viewResults(v);
+				}
+				else if(decision==7){
+					viewResults(v);
+				}
+				else if(decision==8){
+					viewResults(v);
+				}
+				else if(decision==9){
+					System.out.println("Bye!");
+					System.exit(0);
 				}
 			}
 
@@ -59,11 +72,14 @@ public class VotingClient {
 	public static void printOptions(){
 		System.out.println("What do you want to do? : ");
 		System.out.println("1.) Propose a new option");
-		System.out.println("2.) View choices");
+		System.out.println("2.) View options");
 		System.out.println("3.) Vote");
 		System.out.println("4.) Remove Vote");
-		System.out.println("5.) See results casted");
-		System.out.println("6.) Wait for ending");
+		System.out.println("5.) See results so far");
+		System.out.println("6.) Subscribe for ending");
+		System.out.println("7.) Stop subscription for ending");
+		System.out.println("8.) Do nothing");
+		System.out.println("9.) Quit");
 	}
 	
 	public static void proposeOption(VotingInterface v, BufferedReader br) throws IOException{
@@ -103,6 +119,15 @@ public class VotingClient {
 	
 	public static void viewResults(VotingInterface v) throws IOException{
 		System.out.println(v.getResults());
+	}
+	
+	public static void removeVote(VotingInterface v, String username, String password) throws IOException{
+		System.out.println("Choose the number you would like to vote for:");
+		if(v.removeVote(username, password)){
+			System.out.println("Vote removed Successfully");
+		} else{
+			System.out.println("Vote not removed successfully");
+		}
 	}
 
 	

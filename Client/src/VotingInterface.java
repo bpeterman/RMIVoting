@@ -8,4 +8,5 @@ public interface VotingInterface extends Remote {
 	public boolean addChoice(String choice) throws java.rmi.RemoteException;
 	public List<String> getChoices() throws java.rmi.RemoteException;
 	public String getResults() throws java.rmi.RemoteException;
+	public boolean removeVote(String username, String password) throws java.rmi.RemoteException;
 }
