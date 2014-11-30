@@ -1,11 +1,7 @@
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream.GetField;
 import java.rmi.Naming;
-import java.rmi.RemoteException;
-import java.security.Principal;
 import java.util.List;
 
 public class VotingClient {
@@ -45,6 +41,9 @@ public class VotingClient {
 					viewOptions(v);
 				}
 				else if(decision==3){
+					vote(v, br, username, password);
+				}
+				else if(decision==4){
 					vote(v, br, username, password);
 				}
 				else if(decision==5){
@@ -92,7 +91,6 @@ public class VotingClient {
 	}
 	
 	public static void vote(VotingInterface v, BufferedReader br, String username, String password) throws IOException{
-		List<String> choices = v.getChoices();
 		System.out.println("Choose the number you would like to vote for:");
 		String choice = br.readLine();
 		int decision = Integer.parseInt(choice);
