@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.util.List;
 
 public class VotingClient {
@@ -50,7 +51,7 @@ public class VotingClient {
 					viewResults(v);
 				}
 				else if(decision==6){
-					viewResults(v);
+					subscribe(v, username, password);
 				}
 				else if(decision==7){
 					viewResults(v);
@@ -62,6 +63,10 @@ public class VotingClient {
 					System.out.println("Bye!");
 					System.exit(0);
 				}
+				else if(decision==10 && username.equals("admin")){
+					v.endVoting();
+					System.out.println("Voting Ended");
+				}		
 			}
 
 		} catch (Exception e) {
@@ -128,6 +133,12 @@ public class VotingClient {
 		} else{
 			System.out.println("Vote not removed successfully");
 		}
+	}
+	
+	public static void subscribe(VotingInterface v, String username, String password) throws RemoteException{
+		CallbackClientInterface callbackObj = new CallbackClientImpl();
+		v.registerForCallback(callbackObj);
+		System.out.println("Subscribed");
 	}
 
 	

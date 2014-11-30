@@ -1,22 +1,44 @@
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
-public class VotingImpl extends UnicastRemoteObject implements VotingInterface {
+public class VotingImpl extends UnicastRemoteObject implements VotingInterface{
 
 	public boolean isVotingOpen;
 	public List<User> users = new ArrayList<User>();
 	public List<User> votes = new ArrayList<User>();
 	public User admin = new User("admin", "adminpass");
 	public Options options = new Options();
+	private Vector clientList;
 	
-	public VotingImpl() throws RemoteException {
+	
+	public VotingImpl() throws RemoteException, MalformedURLException {
 		super();
 		addUsers();
 		isVotingOpen=true;
+		clientList = new Vector();
 	}
 	
+	public void endVoting(){
+		isVotingOpen=false;
+		try {
+			doCallbacks();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public boolean addChoice(String choice){
 		if(options.choices.contains(choice))
 			return false;
@@ -102,5 +124,27 @@ public class VotingImpl extends UnicastRemoteObject implements VotingInterface {
 		}
 		
 		return results;
+	}
+
+	public void registerForCallback(CallbackClientInterface callbackClientObject)
+			throws RemoteException {
+		if(!(clientList.contains(callbackClientObject))){
+			clientList.addElement(callbackClientObject);
+		}
+		
+	}
+
+	public synchronized void unregisterForCallback(
+			CallbackClientInterface callbackClientObject)
+			throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public synchronized void doCallbacks() throws RemoteException, MalformedURLException, NotBoundException{
+		for(int i=0; i<clientList.size(); i++){
+			CallbackClientInterface nextClient = (CallbackClientInterface)clientList.elementAt(i);
+			nextClient.notifyMe("back");
+		}
 	}
 }

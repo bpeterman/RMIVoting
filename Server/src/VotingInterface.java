@@ -9,4 +9,7 @@ public interface VotingInterface extends Remote {
 	public List<String> getChoices() throws java.rmi.RemoteException;
 	public String getResults() throws java.rmi.RemoteException;
 	public boolean removeVote(String username, String password) throws java.rmi.RemoteException;
+	public void registerForCallback(CallbackClientInterface callbackClientObject) throws java.rmi.RemoteException;
+	public void unregisterForCallback(CallbackClientInterface callbackClientObject) throws java.rmi.RemoteException;
+	public void endVoting() throws java.rmi.RemoteException;
 }
