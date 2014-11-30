@@ -65,4 +65,27 @@ public class VotingImpl extends UnicastRemoteObject implements VotingInterface {
 		votes.add(checkUser);
 		return true;
 	}
+	
+	public String getResults(){
+		int index=0;
+		int[] counts = new int[options.choices.size()];
+		for (int i=0; i<votes.size(); i++){
+			for (int j=0; j<options.choices.size(); j++){
+				if(options.choices.get(j).equals(votes.get(i).getUserVote().getChoice())){
+					index=j;
+					break;
+				}
+			}
+			counts[index]++;
+		}
+		String results="Results:\n";
+		for(int i=0; i<options.choices.size(); i++){
+			results += options.choices.get(i);
+			results += " : ";
+			results += counts[i] + " votes";
+			results += "\n";
+		}
+		
+		return results;
+	}
 }

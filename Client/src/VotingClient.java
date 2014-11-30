@@ -2,6 +2,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream.GetField;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.security.Principal;
@@ -45,6 +46,9 @@ public class VotingClient {
 				}
 				else if(decision==3){
 					vote(v, br, username, password);
+				}
+				else if(decision==5){
+					viewResults(v);
 				}
 			}
 
@@ -97,6 +101,10 @@ public class VotingClient {
 		} else{
 			System.out.println("Vote not successful");
 		}
+	}
+	
+	public static void viewResults(VotingInterface v) throws IOException{
+		System.out.println(v.getResults());
 	}
 
 	

@@ -5,6 +5,13 @@ public class Vote {
 	public Vote(String choice) {
 		this.choice = choice;
 	}
+	
+	public boolean isIt(Vote obj){
+		if (obj.choice.equals(choice))
+			return true;
+		return false;
+	}
+	
 	public String getChoice() {
 		return choice;
 	}
