@@ -17,6 +17,19 @@ public class VotingImpl extends UnicastRemoteObject implements VotingInterface {
 		isVotingOpen=true;
 	}
 	
+	public boolean addChoice(String choice){
+		if(options.choices.contains(choice))
+			return false;
+		options.addToChoices(choice);
+		return true;
+	}
+	
+	public List<String> getChoices(){
+		if(options.choices.size()==0)
+			return null;
+		return options.choices;
+	}
+	
 	public void addUsers(){
 		users.add(new User("blake", "blakepass"));
 		users.add(new User("tom", "tompass"));
@@ -25,7 +38,7 @@ public class VotingImpl extends UnicastRemoteObject implements VotingInterface {
 	}
 	
 	public boolean isAdmin(String username, String password){
-		if(username.equals("admin")  && password.equals("adminpass"))
+		if(username.equals("admin") && password.equals("adminpass"))
 			return true;
 		return false;
 	}
@@ -36,7 +49,7 @@ public class VotingImpl extends UnicastRemoteObject implements VotingInterface {
 		return false;
 	}
 	
-	public boolean castVote(String username, String password, String choice){
+	public boolean castVote(String username, String password, int num){
 		if(!isVotingOpen)
 			return false;
 		User checkUser = new User(username, password);
@@ -47,6 +60,7 @@ public class VotingImpl extends UnicastRemoteObject implements VotingInterface {
 				}
 			}
 		}
+		String choice = options.choices.get(num);
 		checkUser.setUserVote(new Vote(choice));
 		votes.add(checkUser);
 		return true;
